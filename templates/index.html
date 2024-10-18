@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rule Engine</title>
+    <script>
+        async function addUser() {
+            const user = {
+                name: document.getElementById("name").value,
+                age: parseInt(document.getElementById("age").value),
+                department: document.getElementById("department").value,
+                income: parseFloat(document.getElementById("income").value),
+                spend: parseFloat(document.getElementById("spend").value)
+            };
+            const response = await fetch('/add_user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            });
+            const result = await response.json();
+            alert(result.message);
+        }
+
+        async function checkEligibility() {
+            const rule = document.getElementById("rule").value;
+            const user = {
+                age: parseInt(document.getElementById("check_age").value),
+                department: document.getElementById("check_department").value,
+                income: parseFloat(document.getElementById("check_income").value),
+                spend: parseFloat(document.getElementById("check_spend").value)
+            };
+            const response = await fetch('/check_eligibility', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ rule, ...user })
+            });
+            const result = await response.json();
+            alert('Eligibility: ' + result.eligible);
+        }
+    </script>
+</head>
+<body>
+    <h1>Rule Engine</h1>
+    <h2>Add User</h2>
+    <input type="text" id="name" placeholder="Name"><br>
+    <input type="number" id="age" placeholder="Age"><br>
+    <input type="text" id="department" placeholder="Department"><br>
+    <input type="number" id="income" placeholder="Income"><br>
+    <input type="number" id="spend" placeholder="Spend"><br>
+    <button onclick="addUser()">Add User</button>
+
+    <h2>Check Eligibility</h2>
+    <input type="text" id="rule" placeholder="Rule String"><br>
+    <input type="number" id="check_age" placeholder="Age"><br>
+    <input type="text" id="check_department" placeholder="Department"><br>
+    <input type="number" id="check_income" placeholder="Income"><br>
+    <input type="number" id="check_spend" placeholder="Spend"><br>
+    <button onclick="checkEligibility()">Check Eligibility</button>
+</body>
+</html>

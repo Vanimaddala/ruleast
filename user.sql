@@ -1,0 +1,2 @@
+-- SQLite
+CREATE TABLE User (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL,age INTEGER NOT NULL,department TEXT,income REAL,spend REAL,eligibility TEXT);
